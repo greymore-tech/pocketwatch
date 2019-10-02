@@ -24,6 +24,7 @@
     },
     "dependencies": {
         "admin-lte": "^2.4.18",
-        "sweetalert": "^2.1.2"
+        "sweetalert": "^2.1.2",
+        "vue-progressbar": "^0.7.5"
     }
 }
