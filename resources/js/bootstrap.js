@@ -13,6 +13,13 @@ try {
     require('bootstrap');
 } catch (e) {}
 
+import VueProgressBar from 'vue-progressbar'
+Vue.use(VueProgressBar, {
+  color: 'rgb(0,0,0)',
+  failedColor: 'red',
+  height: '7px'
+})
+
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our Laravel back-end. This library automatically handles sending the
