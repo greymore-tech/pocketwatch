@@ -65,7 +65,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <a href="index3.html" class="brand-link">
       <img src="dist/img/AdminLTELogo.png" alt="Admin Image" class="brand-image img-circle elevation-3"
            style="opacity: .8">
-      <span class="brand-text font-weight-light">Food Booker</span>
+      <span class="brand-text font-weight-light">Pocket Watch</span>
     </a>
 
     <!-- Sidebar -->
@@ -100,30 +100,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <p>Dashboard</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="/additem" class="nav-link">
-                  <i class="fas fa-plus nav-icon"></i>
-                  <p>Add Item</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/editmenu" class="nav-link">
-                  <i class="fas fa-edit nav-icon"></i>
-                  <p>Edit Menu</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/specials" class="nav-link">
-                  <i class="fas fa-star nav-icon"></i>
-                  <p>Today's Special</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/bookings" class="nav-link">
-                  <i class="fas fa-motorcycle nav-icon"></i>
-                  <p>Bookings & Status</p>
-                </a>
-              </li>
+              
               <li class="nav-item">
                 <a href="/addadmin" class="nav-link">
                   <i class="fas fa-user-plus nav-icon"></i>
@@ -132,15 +109,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </li>
             </ul>
           </li>
-          <!--<li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Simple Link
-                <span class="right badge badge-danger">New</span>
-              </p>
-            </a>
-          </li>-->
+         
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
