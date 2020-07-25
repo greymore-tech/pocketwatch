@@ -4,9 +4,9 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
+require("./bootstrap");
 
-window.Vue = require('vue');
+window.Vue = require("vue");
 
 /**
  * The following block of code may be used to automatically register your
@@ -19,7 +19,12 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component(
+    "income-expense",
+    require("./components/IncomeExpense.vue").default
+);
+Vue.component("item", require("./components/Item.vue").default);
+Vue.component("add-income", require("./components/addIncome.vue").default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -27,16 +32,16 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-import swal from 'sweetalert2';
-window.swal=swal;
-const toast=swal.mixin({
-  toast: true,
-  position: 'top-end',
-  showConfirmButton: false,
-  timer: 6000
+import swal from "sweetalert2";
+window.swal = swal;
+const toast = swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 6000
 });
 window.toast = toast;
 
 const app = new Vue({
-    el: '#app',
+    el: "#app"
 });
