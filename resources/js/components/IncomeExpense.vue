@@ -1,152 +1,69 @@
 <template>
-    <div>
-        <div class="card-header text-center">
-            <h4>Your Balance</h4>
-            <h1 id="balance">{{ totalIncome-totalExpense }} ₹</h1>
-        </div>
-        <div class="card-body">
-            <div class="text-center">
-                <div class="inc-exp-container">
-                    <div>
-                        <h4>Income</h4>
-                        <p id="money-plus" class="money plus">+{{totalIncome }} ₹</p>
-                    </div>
-                    <div>
-                        <h4>Expense</h4>
-                        <p id="money-minus" class="money minus">-{{ totalExpense }} ₹</p>
-                    </div>
+    <div class>
+        <div class="mr-4 ml-4 pr-1 pl-1 pt-2 pb-4">
+            <form @submit.prevent="addTab">
+                <div class="form-group text-center">
+                    <label for="tab" class>Add Tab</label>
+                    <input
+                        v-model="tab.tab_name"
+                        type="text"
+                        class="form-control"
+                        id="tab"
+                        placeholder="Enter Tab Name..."
+                    />
                 </div>
-            </div>
-            <div class="text-center">
-                <ul
-                    class="nav nav-pills nav-fill justify-content-center tab-text"
-                    id="myTab"
-                    role="tablist"
+                <button type="submit" class="btn btn-primary btn-block">Add / Edit</button>
+            </form>
+        </div>
+        <div class="mr-4 ml-4">
+            <ul
+                class="nav nav-pills nav-fill justify-content-center tab-text pb-4"
+                id="myTab"
+                role="tablist"
+            >
+                <li
+                    class="nav-item m-1"
+                    role="presentation"
+                    v-for="(tab, index) in tabs"
+                    :key="index"
                 >
-                    <li class="nav-item" role="presentation">
-                        <a
-                            class="nav-link active"
-                            id="history-tab"
-                            data-toggle="tab"
-                            href="#history"
-                            role="tab"
-                            aria-controls="histroy"
-                            aria-selected="true"
-                        >History</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a
-                            class="nav-link"
-                            id="income-tab"
-                            data-toggle="tab"
-                            href="#income"
-                            role="tab"
-                            aria-controls="income"
-                            aria-selected="false"
-                        >Add Income</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a
-                            class="nav-link"
-                            id="expense-tab"
-                            data-toggle="tab"
-                            href="#expense"
-                            role="tab"
-                            aria-controls="expense"
-                            aria-selected="false"
-                        >Add Expense</a>
-                    </li>
-                </ul>
-                <div class="tab-content mt-3" id="myTabContent">
-                    <div
-                        class="tab-pane fade show active"
-                        id="history"
-                        role="tabpanel"
-                        aria-labelledby="history-tab"
-                    >
-                        <h3>History</h3>
-                        <ul id="list" class="list-group">
-                            <item
-                                class="list-group-item"
-                                v-for="(item, index) in items"
-                                :key="index"
-                                :itemName="item.itemName"
-                                :itemAmount="item.itemAmount"
-                                :income="item.income"
-                                @on-delete="deteleItem(item)"
-                                @on-edit-name="editItemName(item, $event)"
-                                @on-edit-amount="editItemAmount(item, $event)"
-                            />
-                        </ul>
-                    </div>
+                    <a
+                        class="nav-link nav-link-vertical"
+                        :id="tab.tab_name+'-tab'"
+                        data-toggle="tab"
+                        :href="'#'+tab.tab_name"
+                        role="tab"
+                        :aria-controls="tab.tab_name"
+                        aria-selected="true"
+                    >{{ tab.tab_name }}</a>
+                </li>
+            </ul>
 
-                    <div
-                        class="tab-pane fade"
-                        id="income"
-                        role="tabpanel"
-                        aria-labelledby="income-tab"
-                    >
-                        <h3>Add Income</h3>
-                        <form @submit.prevent>
-                            <div class="form-group">
-                                <label for="item" class="float-left">Item</label>
-                                <input
-                                    v-model="newItemName"
-                                    type="text"
-                                    class="form-control"
-                                    id="item"
-                                    placeholder="Enter item..."
-                                />
+            <div class="tab-content" id="myTabContent">
+                <div
+                    v-for="(tab, index) in tabs"
+                    :key="index"
+                    class="tab-pane fade show"
+                    :id="tab.tab_name"
+                    role="tabpanel"
+                    :aria-labelledby="tab.tab_name+'-tab'"
+                >
+                    <tab :tab="tab" :tab_name="tab.tab_name"></tab>
+                    <div class="pr-3 pl-3 mb-4">
+                        <div class="row">
+                            <div class="col">
+                                <button
+                                    @click="editTab(tab)"
+                                    class="btn btn-warning btn-block"
+                                >Edit {{ tab.tab_name }}</button>
                             </div>
-                            <div class="form-group">
-                                <label for="amount" class="float-left">Amount</label>
-                                <input
-                                    v-model="newItemAmount"
-                                    type="number"
-                                    class="form-control"
-                                    id="amount"
-                                    placeholder="Enter amount..."
-                                />
+                            <div class="col">
+                                <button
+                                    @click="deleteTab(tab.id)"
+                                    class="btn btn-danger btn-block"
+                                >Delete {{ tab.tab_name }}</button>
                             </div>
-                            <button
-                                @click="pushIncomeItem()"
-                                class="btn btn-primary btn-block"
-                            >Add Income</button>
-                        </form>
-                    </div>
-                    <div
-                        class="tab-pane fade"
-                        id="expense"
-                        role="tabpanel"
-                        aria-labelledby="expense-tab"
-                    >
-                        <h3>Add Expense</h3>
-                        <form @submit.prevent>
-                            <div class="form-group">
-                                <label for="item" class="float-left">Item</label>
-                                <input
-                                    v-model="newItemName"
-                                    type="text"
-                                    class="form-control"
-                                    id="item"
-                                    placeholder="Enter item..."
-                                />
-                            </div>
-                            <div class="form-group">
-                                <label for="amount" class="float-left">Amount</label>
-                                <input
-                                    v-model="newItemAmount"
-                                    type="number"
-                                    class="form-control"
-                                    id="amount"
-                                    placeholder="Enter amount..."
-                                />
-                            </div>
-                            <button
-                                @click="pushExpenseItem()"
-                                class="btn btn-primary btn-block"
-                            >Add Expense</button>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -155,85 +72,138 @@
 </template>
 
 <script>
+Vue.prototype.$user_id = document
+    .querySelector("meta[name='user-id']")
+    .getAttribute("content");
+
 export default {
     data() {
         return {
-            items: [
-                { itemName: "Item 1", itemAmount: "100", income: true },
-                { itemName: "Item 2", itemAmount: "200", income: false },
-                { itemName: "Item 3", itemAmount: "300", income: true },
-            ],
-            newItemName: "",
-            newItemAmount: "",
-            income: "",
-            switch1: true,
+            tabs: [],
+            tab: {
+                id: "",
+                tab_name: "",
+            },
+            tab_id: "",
+            editing: false,
         };
     },
-    methods: {
-        pushIncomeItem() {
-            if (this.newItemName.length > 1) {
-                this.items.push({
-                    itemName: this.newItemName,
-                    itemAmount: this.newItemAmount,
-                    income: true,
-                });
-            }
-            this.newItemName = "";
-            this.newItemAmount = "";
-        },
-        pushExpenseItem() {
-            if (this.newItemName.length > 1) {
-                this.items.push({
-                    itemName: this.newItemName,
-                    itemAmount: this.newItemAmount,
-                    income: false,
-                });
-            }
-            this.newItemName = "";
-            this.newItemAmount = "";
-        },
-        editItemName(item, newItemName) {
-            item.itemName = newItemName;
-        },
-        editItemAmount(item, newItemAmount) {
-            item.itemAmount = newItemAmount;
-        },
-        deteleItem(deleteItem) {
-            this.items = this.items.filter((item) => item !== deleteItem);
-        },
+    created() {
+        this.fetchTabs();
     },
-    computed: {
-        totalIncome: function () {
-            let income = 0;
-            for (let i = 0; i < this.items.length; i++) {
-                if (this.items[i].income) {
-                    income += parseFloat(this.items[i].itemAmount);
-                }
-            }
-
-            return income;
+    methods: {
+        fetchTabs() {
+            fetch("api/tabs/" + this.$user_id)
+                .then((res) => res.json())
+                .then((res) => {
+                    this.tabs = res.data;
+                });
         },
-        totalExpense: function () {
-            let expense = 0;
-            for (let i = 0; i < this.items.length; i++) {
-                if (!this.items[i].income) {
-                    expense += parseFloat(this.items[i].itemAmount);
-                }
+        addTab() {
+            if (this.editing === false) {
+                fetch("api/tab/" + this.$user_id, {
+                    method: "post",
+                    body: JSON.stringify(this.tab),
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                })
+                    .then((res) => res.json())
+                    .then((data) => {
+                        this.tab.tab_name = "";
+                        this.fetchTabs();
+                    })
+                    .catch((error) => console.log(error));
+            } else {
+                fetch("api/tab/" + this.$user_id, {
+                    method: "put",
+                    body: JSON.stringify(this.tab),
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                })
+                    .then((res) => res.json())
+                    .then((data) => {
+                        Swal.fire({
+                            title: "Tab Name Updated!",
+                            text: "Wait for page reload",
+                            icon: "success",
+                            confirmButtonColor: "#3085d6",
+                            confirmButtonText: "OK",
+                        }).then((result) => {
+                            if (result.value) {
+                                this.tab.tab_name = "";
+                                window.location.reload();
+                            }
+                        });
+                    })
+                    .catch((error) => console.log(error));
             }
-
-            return expense;
         },
-        total: function () {
-            let total = 0;
-            total = parseFloat(totalIncome + totalExpense);
-
-            return total;
+        editTab(tab) {
+            Swal.fire({
+                title: "Edit Tab Name!",
+                text: "You can edit name in the Tab section above.",
+                icon: "info",
+            }).then((result) => {
+                if (result.value) {
+                    this.editing = true;
+                    this.tab.id = tab.id;
+                    this.tab.tab_id = tab.id;
+                    this.tab.tab_name = tab.tab_name;
+                    window.scrollTo(0, 0);
+                }
+            });
+        },
+        deleteTab(id) {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes",
+            }).then((result) => {
+                if (result.value) {
+                    fetch("api/tab/" + id + "/" + this.$user_id, {
+                        method: "delete",
+                    })
+                        .then((res) => res.json())
+                        .then((data) => {
+                            this.fetchTabs();
+                        })
+                        .catch((error) => console.log(error));
+                    Swal.fire("Deleted!", "Tab has been deleted.", "success");
+                }
+            });
         },
     },
 };
 </script>
 
 <style>
+html {
+    scroll-behavior: smooth;
+}
+
+hr {
+    margin-top: 10px;
+    height: 1px;
+    border: 0;
+    color: #bbbbbb;
+    background-color: #bbbbbb;
+}
+
+.marg {
+    margin-top: 25px;
+}
+
+.nav-link-vertical {
+    background-color: #d8d8d8;
+    color: #9e9e9e;
+}
+
 h1 {
     letter-spacing: 1px;
     margin: 0;
