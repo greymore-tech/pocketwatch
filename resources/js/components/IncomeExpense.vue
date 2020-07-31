@@ -1,5 +1,9 @@
 <template>
-    <div class>
+    <div>
+        <div class="card-header text-center pt-4">
+            <h4>Total Balance</h4>
+            <h1 id="balance">{{ grandTotalIncome()-grandTotalExpense() }} ₹</h1>
+        </div>
         <div class="mr-4 ml-4 pr-1 pl-1 pt-2 pb-4">
             <form @submit.prevent="addTab">
                 <div class="form-group text-center">
@@ -84,12 +88,23 @@ export default {
                 id: "",
                 tab_name: "",
             },
+            items: [],
+            item: {
+                id: "",
+                item_name: "",
+                item_amount: "",
+                item_is_income: "",
+            },
             tab_id: "",
+            item_id: "",
             editing: false,
         };
     },
     created() {
         this.fetchTabs();
+        setInterval(() => {
+            this.fetchItems();
+        }, 2000);
     },
     methods: {
         fetchTabs() {
@@ -177,6 +192,31 @@ export default {
                     Swal.fire("Deleted!", "Tab has been deleted.", "success");
                 }
             });
+        },
+        fetchItems() {
+            fetch("api/items/" + this.$user_id)
+                .then((res) => res.json())
+                .then((res) => {
+                    this.items = res.data;
+                });
+        },
+        grandTotalIncome() {
+            let income = 0;
+            for (let i = 0; i < this.items.length; i++) {
+                if (this.items[i].item_is_income) {
+                    income += parseFloat(this.items[i].item_amount);
+                }
+            }
+            return income;
+        },
+        grandTotalExpense() {
+            let expense = 0;
+            for (let i = 0; i < this.items.length; i++) {
+                if (!this.items[i].item_is_income) {
+                    expense += parseFloat(this.items[i].item_amount);
+                }
+            }
+            return expense;
         },
     },
 };
