@@ -2311,6 +2311,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 Vue.prototype.$user_id = document.querySelector("meta[name='user-id']").getAttribute("content");
 /* harmony default export */ __webpack_exports__["default"] = ({
   // components: {
@@ -2323,6 +2327,14 @@ Vue.prototype.$user_id = document.querySelector("meta[name='user-id']").getAttri
         id: "",
         // user_id: "",
         tab_name: ""
+      },
+      items: [],
+      item: {
+        id: "",
+        // user_id: "",
+        item_name: "",
+        item_amount: "",
+        item_is_income: ""
       },
       // items: [
       //     {
@@ -2350,24 +2362,30 @@ Vue.prototype.$user_id = document.querySelector("meta[name='user-id']").getAttri
       // switch1: true,
       // newTabName: "",
       tab_id: "",
+      item_id: "",
       editing: false
     };
   },
   created: function created() {
+    var _this = this;
+
     this.fetchTabs();
+    setInterval(function () {
+      _this.fetchItems();
+    }, 2000);
   },
   methods: {
     fetchTabs: function fetchTabs() {
-      var _this = this;
+      var _this2 = this;
 
       fetch("api/tabs/" + this.$user_id).then(function (res) {
         return res.json();
       }).then(function (res) {
-        _this.tabs = res.data;
+        _this2.tabs = res.data;
       });
     },
     addTab: function addTab() {
-      var _this2 = this;
+      var _this3 = this;
 
       if (this.editing === false) {
         fetch("api/tab/" + this.$user_id, {
@@ -2379,9 +2397,9 @@ Vue.prototype.$user_id = document.querySelector("meta[name='user-id']").getAttri
         }).then(function (res) {
           return res.json();
         }).then(function (data) {
-          _this2.tab.tab_name = "";
+          _this3.tab.tab_name = "";
 
-          _this2.fetchTabs();
+          _this3.fetchTabs();
         })["catch"](function (error) {
           return console.log(error);
         });
@@ -2404,7 +2422,7 @@ Vue.prototype.$user_id = document.querySelector("meta[name='user-id']").getAttri
             confirmButtonText: "OK"
           }).then(function (result) {
             if (result.value) {
-              _this2.tab.tab_name = "";
+              _this3.tab.tab_name = "";
               window.location.reload();
             }
           });
@@ -2420,7 +2438,7 @@ Vue.prototype.$user_id = document.querySelector("meta[name='user-id']").getAttri
 
     },
     editTab: function editTab(tab) {
-      var _this3 = this;
+      var _this4 = this;
 
       // alert("You can edit this in the Tab section above.");
       Swal.fire({
@@ -2429,16 +2447,16 @@ Vue.prototype.$user_id = document.querySelector("meta[name='user-id']").getAttri
         icon: "info"
       }).then(function (result) {
         if (result.value) {
-          _this3.editing = true;
-          _this3.tab.id = tab.id;
-          _this3.tab.tab_id = tab.id;
-          _this3.tab.tab_name = tab.tab_name;
+          _this4.editing = true;
+          _this4.tab.id = tab.id;
+          _this4.tab.tab_id = tab.id;
+          _this4.tab.tab_name = tab.tab_name;
           window.scrollTo(0, 0);
         }
       });
     },
     deleteTab: function deleteTab(id) {
-      var _this4 = this;
+      var _this5 = this;
 
       Swal.fire({
         title: "Are you sure?",
@@ -2450,13 +2468,13 @@ Vue.prototype.$user_id = document.querySelector("meta[name='user-id']").getAttri
         confirmButtonText: "Yes"
       }).then(function (result) {
         if (result.value) {
-          fetch("api/tab/" + id + "/" + _this4.$user_id, {
+          fetch("api/tab/" + id + "/" + _this5.$user_id, {
             method: "delete"
           }).then(function (res) {
             return res.json();
           }).then(function (data) {
             // alert("Board Removed");
-            _this4.fetchTabs();
+            _this5.fetchTabs();
           })["catch"](function (error) {
             return console.log(error);
           });
@@ -2477,6 +2495,39 @@ Vue.prototype.$user_id = document.querySelector("meta[name='user-id']").getAttri
       //     Swal.fire("Deleted!", "Tab has been deleted.", "success");
       // }
       // this.tabs = this.tabs.filter((tab) => tab !== deletetab);
+    },
+    fetchItems: function fetchItems() {
+      var _this6 = this;
+
+      fetch("api/items/" + this.$user_id).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this6.items = res.data;
+      });
+    },
+    grandTotalIncome: function grandTotalIncome() {
+      var income = 0;
+
+      for (var i = 0; i < this.items.length; i++) {
+        if (this.items[i].item_is_income) {
+          income += parseFloat(this.items[i].item_amount);
+        }
+      } // this.fetchItems();
+
+
+      return income;
+    },
+    grandTotalExpense: function grandTotalExpense() {
+      var expense = 0;
+
+      for (var i = 0; i < this.items.length; i++) {
+        if (!this.items[i].item_is_income) {
+          expense += parseFloat(this.items[i].item_amount);
+        }
+      } // this.fetchItems();
+
+
+      return expense;
     } // pushIncomeItem() {
     //     if (this.newItemName.length > 1) {
     //         this.items.push({
@@ -3080,31 +3131,32 @@ Vue.prototype.$user_id = document.querySelector("meta[name='user-id']").getAttri
 
       return expense;
     }
-  },
-  computed: {// totalIncome: function () {
-    //     let income = 0;
-    //     for (let i = 0; i < this.items.length; i++) {
-    //         if (this.items[i].income) {
-    //             income += parseFloat(this.items[i].itemAmount);
-    //         }
-    //     }
-    //     return income;
-    // },
-    // totalExpense: function () {
-    //     let expense = 0;
-    //     for (let i = 0; i < this.items.length; i++) {
-    //         if (!this.items[i].income) {
-    //             expense += parseFloat(this.items[i].itemAmount);
-    //         }
-    //     }
-    //     return expense;
-    // },
-    // total: function () {
-    //     let total = 0;
-    //     total = parseFloat(totalIncome - totalExpense);
-    //     return total;
-    // },
-  } // mounted() {
+  } // computed: {
+  // totalIncome: function () {
+  //     let income = 0;
+  //     for (let i = 0; i < this.items.length; i++) {
+  //         if (this.items[i].income) {
+  //             income += parseFloat(this.items[i].itemAmount);
+  //         }
+  //     }
+  //     return income;
+  // },
+  // totalExpense: function () {
+  //     let expense = 0;
+  //     for (let i = 0; i < this.items.length; i++) {
+  //         if (!this.items[i].income) {
+  //             expense += parseFloat(this.items[i].itemAmount);
+  //         }
+  //     }
+  //     return expense;
+  // },
+  // total: function () {
+  //     let total = 0;
+  //     total = parseFloat(totalIncome - totalExpense);
+  //     return total;
+  // },
+  // },
+  // mounted() {
   //     console.log("Component mounted.");
   // },
 
@@ -7828,7 +7880,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* @import url(\"https://fonts.googleapis.com/css?family=Lato&display=swap\"); */\n\n/* :root {\n    --box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);\n} */\n\n/* main-body {\n    background-color: #f7f7f7;\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    justify-content: center;\n    min-height: 100vh;\n    margin: 0;\n    font-family: \"Lato\", sans-serif;\n} */\n\n/* .container {\n    margin: 30px auto;\n    width: 350px;\n} */\nhtml {\n    scroll-behavior: smooth;\n}\nhr {\n    margin-top: 10px;\n    /* margin-bottom: 10px; */\n    height: 1px;\n    border: 0;\n    color: #bbbbbb;\n    background-color: #bbbbbb;\n}\n.marg {\n    margin-top: 25px;\n    /* padding-top: 50px; */\n    /* margin-bottom: 30px; */\n}\n\n/* change the link color */\n.nav-link-vertical {\n    background-color: #d8d8d8;\n    color: #9e9e9e;\n}\n\n/* change the color of active or hovered links */\n/* .nav-link-vertical {\n    background-color: #2ecc71;\n} */\nh1 {\n    letter-spacing: 1px;\n    margin: 0;\n}\nh3 {\n    border-bottom: 1px solid #bbb;\n    padding-bottom: 10px;\n    margin: 40px 0 10px;\n}\nh4 {\n    margin: 0;\n    text-transform: uppercase;\n}\n.tab-text {\n    font-size: 16px;\n}\n.inc-exp-container {\n    background-color: #fff;\n    /* box-shadow: var(--box-shadow); */\n    padding: 15px 0;\n    display: flex;\n    justify-content: space-between;\n    margin: 15px 0;\n}\n.inc-exp-container > div {\n    flex: 1;\n    text-align: center;\n}\n.inc-exp-container > div:first-of-type {\n    border-right: 1px solid #dedede;\n}\n.money {\n    font-size: 20px;\n    letter-spacing: 1px;\n    margin: 5px 0;\n}\n.money.plus {\n    color: #2ecc71;\n}\n.money.minus {\n    color: #c0392b;\n}\nlabel {\n    display: inline-block;\n    margin: 10px 0;\n    font-size: 18px;\n}\ninput[type=\"text\"],\ninput[type=\"number\"] {\n    border: 1px solid #dedede;\n    border-radius: 2px;\n    display: block;\n    font-size: 16px;\n    padding: 10px;\n    width: 100%;\n}\n\n/* .btn-2 {\n    cursor: pointer;\n    background-color: #9c88ff;\n    box-shadow: var(--box-shadow);\n    color: #fff;\n    border: 0;\n    display: block;\n    font-size: 16px;\n    margin: 10px 0 30px;\n    padding: 10px;\n    width: 100%;\n}\n\n.btn-2:focus,\n.delete-btn-2:focus {\n    outline: 0;\n} */\n\n/* .list {\n    list-style-type: none;\n    padding: 0;\n    margin-bottom: 40px;\n}\n\n.list li {\n    background-color: #fff;\n    box-shadow: var(--box-shadow);\n    color: #333;\n    display: flex;\n    justify-content: space-between;\n    position: relative;\n    padding: 10px;\n    margin: 10px 0;\n}\n\n.list li.plus {\n    border-right: 5px solid #2ecc71;\n}\n\n.list li.minus {\n    border-right: 5px solid #c0392b;\n}\n\n.delete-btn {\n    cursor: pointer;\n    background-color: #e74c3c;\n    border: 0;\n    color: #fff;\n    font-size: 20px;\n    line-height: 20px;\n    padding: 2px 5px;\n    position: absolute;\n    top: 50%;\n    left: 0;\n    transform: translate(-100%, -50%);\n    opacity: 0;\n    transition: opacity 0.3s ease;\n}\n\n.list li:hover .delete-btn {\n    opacity: 1;\n} */\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* @import url(\"https://fonts.googleapis.com/css?family=Lato&display=swap\"); */\n\n/* :root {\n    --box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);\n} */\n\n/* main-body {\n    background-color: #f7f7f7;\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    justify-content: center;\n    min-height: 100vh;\n    margin: 0;\n    font-family: \"Lato\", sans-serif;\n} */\n\n/* .container {\n    margin: 30px auto;\n    width: 350px;\n} */\nhtml {\n    scroll-behavior: smooth;\n}\nhr {\n    margin-top: 10px;\n    /* margin-bottom: 10px; */\n    height: 1px;\n    border: 0;\n    color: #bbbbbb;\n    background-color: #bbbbbb;\n}\n.marg {\n    margin-top: 25px;\n    /* padding-top: 50px; */\n    /* margin-bottom: 30px; */\n}\n\n/* change the link color */\n.nav-link-vertical {\n    background-color: #d8d8d8;\n    color: #9e9e9e;\n}\n\n/* change the color of active or hovered links */\n/* .nav-link-vertical {\n    background-color: #2ecc71;\n} */\nh1 {\n    letter-spacing: 1px;\n    margin: 0;\n}\nh3 {\n    border-bottom: 1px solid #bbb;\n    padding-bottom: 10px;\n    margin: 40px 0 10px;\n}\nh4 {\n    margin: 0;\n    text-transform: uppercase;\n}\n.tab-text {\n    font-size: 16px;\n}\n.inc-exp-container {\n    background-color: #fff;\n    /* box-shadow: var(--box-shadow); */\n    padding: 15px 0;\n    display: flex;\n    justify-content: space-between;\n    margin: 15px 0;\n}\n.inc-exp-container > div {\n    flex: 1;\n    text-align: center;\n}\n.inc-exp-container > div:first-of-type {\n    border-right: 1px solid #dedede;\n}\n.money {\n    font-size: 20px;\n    letter-spacing: 1px;\n    margin: 5px 0;\n}\n.money.plus {\n    color: #2ecc71;\n}\n.money.minus {\n    color: #c0392b;\n}\nlabel {\n    display: inline-block;\n    margin: 10px 0;\n    font-size: 18px;\n}\ninput[type=\"text\"],\ninput[type=\"number\"] {\n    border: 1px solid #dedede;\n    border-radius: 2px;\n    display: block;\n    font-size: 16px;\n    padding: 10px;\n    width: 100%;\n}\n\n/* .btn-2 {\n    cursor: pointer;\n    background-color: #9c88ff;\n    box-shadow: var(--box-shadow);\n    color: #fff;\n    border: 0;\n    display: block;\n    font-size: 16px;\n    margin: 10px 0 30px;\n    padding: 10px;\n    width: 100%;\n}\n\n.btn-2:focus,\n.delete-btn-2:focus {\n    outline: 0;\n} */\n\n/* .list {\n    list-style-type: none;\n    padding: 0;\n    margin-bottom: 40px;\n}\n\n.list li {\n    background-color: #fff;\n    box-shadow: var(--box-shadow);\n    color: #333;\n    display: flex;\n    justify-content: space-between;\n    position: relative;\n    padding: 10px;\n    margin: 10px 0;\n}\n\n.list li.plus {\n    border-right: 5px solid #2ecc71;\n}\n\n.list li.minus {\n    border-right: 5px solid #c0392b;\n}\n\n.delete-btn {\n    cursor: pointer;\n    background-color: #e74c3c;\n    border: 0;\n    color: #fff;\n    font-size: 20px;\n    line-height: 20px;\n    padding: 2px 5px;\n    position: absolute;\n    top: 50%;\n    left: 0;\n    transform: translate(-100%, -50%);\n    opacity: 0;\n    transition: opacity 0.3s ease;\n}\n\n.list li:hover .delete-btn {\n    opacity: 1;\n} */\n", ""]);
 
 // exports
 
@@ -40018,7 +40070,15 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", {}, [
+  return _c("div", [
+    _c("div", { staticClass: "card-header text-center pt-4" }, [
+      _c("h4", [_vm._v("Total Balance")]),
+      _vm._v(" "),
+      _c("h1", { attrs: { id: "balance" } }, [
+        _vm._v(_vm._s(_vm.grandTotalIncome() - _vm.grandTotalExpense()) + " ₹")
+      ])
+    ]),
+    _vm._v(" "),
     _c("div", { staticClass: "mr-4 ml-4 pr-1 pl-1 pt-2 pb-4" }, [
       _c(
         "form",
