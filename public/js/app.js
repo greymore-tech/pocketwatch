@@ -1899,10 +1899,10 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/IncomeExpense.vue?vue&type=script&lang=js&":
-/*!************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/IncomeExpense.vue?vue&type=script&lang=js& ***!
-  \************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Card.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Card.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2077,15 +2077,18 @@ __webpack_require__.r(__webpack_exports__);
       items: [{
         itemName: "Item 1",
         itemAmount: "100",
-        income: true
+        income: true // type: "card",
+
       }, {
         itemName: "Item 2",
         itemAmount: "200",
-        income: false
+        income: false // type: "card",
+
       }, {
         itemName: "Item 3",
         itemAmount: "300",
-        income: true
+        income: true // type: "wallet",
+
       }],
       newItemName: "",
       newItemAmount: "",
@@ -2175,6 +2178,379 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/IncomeExpense.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/IncomeExpense.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+Vue.prototype.$user_id = document.querySelector("meta[name='user-id']").getAttribute("content");
+/* harmony default export */ __webpack_exports__["default"] = ({
+  // components: {
+  //     pushItem,
+  // },
+  data: function data() {
+    return {
+      tabs: [],
+      tab: {
+        id: "",
+        // user_id: "",
+        tab_name: ""
+      },
+      // items: [
+      //     {
+      //         itemName: "Item 1",
+      //         itemAmount: "100",
+      //         income: true,
+      //         type: "card",
+      //     },
+      //     {
+      //         itemName: "Item 2",
+      //         itemAmount: "200",
+      //         income: false,
+      //         type: "card",
+      //     },
+      //     {
+      //         itemName: "Item 3",
+      //         itemAmount: "300",
+      //         income: true,
+      //         type: "wallet",
+      //     },
+      // ],
+      // newItemName: "",
+      // newItemAmount: "",
+      // income: "",
+      // switch1: true,
+      // newTabName: "",
+      tab_id: "",
+      editing: false
+    };
+  },
+  created: function created() {
+    this.fetchTabs();
+  },
+  methods: {
+    fetchTabs: function fetchTabs() {
+      var _this = this;
+
+      fetch("api/tabs/" + this.$user_id).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this.tabs = res.data;
+      });
+    },
+    addTab: function addTab() {
+      var _this2 = this;
+
+      if (this.editing === false) {
+        fetch("api/tab/" + this.$user_id, {
+          method: "post",
+          body: JSON.stringify(this.tab),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }).then(function (res) {
+          return res.json();
+        }).then(function (data) {
+          _this2.tab.tab_name = "";
+
+          _this2.fetchTabs();
+        })["catch"](function (error) {
+          return console.log(error);
+        });
+      } else {
+        fetch("api/tab/" + this.$user_id, {
+          method: "put",
+          body: JSON.stringify(this.tab),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }).then(function (res) {
+          return res.json();
+        }).then(function (data) {
+          // alert("Tab Updated. Wait for page reload");
+          Swal.fire({
+            title: "Tab Name Updated!",
+            text: "Wait for page reload",
+            icon: "success",
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "OK"
+          }).then(function (result) {
+            if (result.value) {
+              _this2.tab.tab_name = "";
+              window.location.reload();
+            }
+          });
+        })["catch"](function (error) {
+          return console.log(error);
+        });
+      } // if (this.newTabName.length > 1) {
+      //     this.tabs.push({
+      //         tabName: this.newTabName,
+      //     });
+      // }
+      // this.newTabName = "";
+
+    },
+    editTab: function editTab(tab) {
+      var _this3 = this;
+
+      // alert("You can edit this in the Tab section above.");
+      Swal.fire({
+        title: "Edit Tab Name!",
+        text: "You can edit name in the Tab section above.",
+        icon: "info"
+      }).then(function (result) {
+        if (result.value) {
+          _this3.editing = true;
+          _this3.tab.id = tab.id;
+          _this3.tab.tab_id = tab.id;
+          _this3.tab.tab_name = tab.tab_name;
+          window.scrollTo(0, 0);
+        }
+      });
+    },
+    deleteTab: function deleteTab(id) {
+      var _this4 = this;
+
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes"
+      }).then(function (result) {
+        if (result.value) {
+          fetch("api/tab/" + id + "/" + _this4.$user_id, {
+            method: "delete"
+          }).then(function (res) {
+            return res.json();
+          }).then(function (data) {
+            // alert("Board Removed");
+            _this4.fetchTabs();
+          })["catch"](function (error) {
+            return console.log(error);
+          });
+          Swal.fire("Deleted!", "Tab has been deleted.", "success");
+        }
+      }); // if (result.value) {
+      //     if (confirm("Are you sure?")) {
+      //         fetch("api/tab/" + id + "/" + this.$user_id, {
+      //             method: "delete",
+      //         })
+      //             .then((res) => res.json())
+      //             .then((data) => {
+      //                 // alert("Board Removed");
+      //                 this.fetchTabs();
+      //             })
+      //             .catch((error) => console.log(error));
+      //     }
+      //     Swal.fire("Deleted!", "Tab has been deleted.", "success");
+      // }
+      // this.tabs = this.tabs.filter((tab) => tab !== deletetab);
+    } // pushIncomeItem() {
+    //     if (this.newItemName.length > 1) {
+    //         this.items.push({
+    //             itemName: this.newItemName,
+    //             itemAmount: this.newItemAmount,
+    //             income: true,
+    //         });
+    //     }
+    //     this.newItemName = "";
+    //     this.newItemAmount = "";
+    // },
+    // pushExpenseItem() {
+    //     if (this.newItemName.length > 1) {
+    //         this.items.push({
+    //             itemName: this.newItemName,
+    //             itemAmount: this.newItemAmount,
+    //             income: false,
+    //         });
+    //     }
+    //     this.newItemName = "";
+    //     this.newItemAmount = "";
+    // },
+    // addItem(newItem) {
+    //     this.items.push({
+    //         itemName: newItem,
+    //         itemAmount: newAmount,
+    //     });
+    // },
+    // pushItem(e) {
+    //     this.items.push(e);
+    // },
+    // editItemName(item, newItemName) {
+    //     item.itemName = newItemName;
+    // },
+    // editItemAmount(item, newItemAmount) {
+    //     item.itemAmount = newItemAmount;
+    // },
+    // deteleItem(deleteItem) {
+    //     this.items = this.items.filter((item) => item !== deleteItem);
+    // },
+    // },
+    // computed: {
+    //     totalIncome: function () {
+    //         let income = 0;
+    //         for (let i = 0; i < this.items.length; i++) {
+    //             if (this.items[i].income) {
+    //                 income += parseFloat(this.items[i].itemAmount);
+    //             }
+    //         }
+    //         return income;
+    //     },
+    //     totalExpense: function () {
+    //         let expense = 0;
+    //         for (let i = 0; i < this.items.length; i++) {
+    //             if (!this.items[i].income) {
+    //                 expense += parseFloat(this.items[i].itemAmount);
+    //             }
+    //         }
+    //         return expense;
+    //     },
+    //     total: function () {
+    //         let total = 0;
+    //         total = parseFloat(totalIncome + totalExpense);
+    //         return total;
+    //     },
+    // },
+    // mounted() {
+    //     console.log("Component mounted.");
+
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Item.vue?vue&type=script&lang=js&":
 /*!***************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Item.vue?vue&type=script&lang=js& ***!
@@ -2226,57 +2602,124 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
-    itemName: String,
-    itemAmount: String,
-    income: Boolean
+    item_id: Number,
+    item_name: String,
+    item_amount: String,
+    item_is_income: Number,
+    tab_id: Number // type: String,
+    // tabName: String,
+
   },
   data: function data() {
     return {
-      newItemName: "",
-      newItemAmount: "",
+      items: [],
+      item: {
+        id: "",
+        // user_id: "",
+        item_name: "",
+        item_amount: "" // item_is_income: "",
+
+      },
+      // item_id: "",
+      // newItemName: "",
+      // newItemAmount: "",
       editing: false,
       incomeClass: "alert-success",
       expenseClass: "alert-danger"
     };
   },
   methods: {
-    startEditingName: function startEditingName() {
+    startEditingName: function startEditingName(item_id, tab_id) {
       if (!this.editing) {
-        this.newItemName = this.itemName;
-        this.newItemAmount = this.itemAmount;
+        // this.newItemName = this.itemName;
+        // this.newItemAmount = this.itemAmount;
         this.editing = true;
+        this.item.id = item_id;
+        this.item.item_id = item_id;
+        this.item.item_name = this.item_name;
+        this.item.item_amount = this.item_amount; // this.item.item_is_income = this.item_is_income;
       } else {
-        this.endEditingName();
+        this.endEditingName(tab_id);
       }
     },
-    endEditingName: function endEditingName() {
-      this.editing = false;
-      this.$emit("on-edit-name", this.newItemName);
+    endEditingName: function endEditingName(tab_id) {
+      var _this = this;
+
+      // console.log(this.item);
+      this.editing = false; // this.$emit("on-edit-name", this.newItemName);
+      //  Update item name based on curent tab and current user
+
+      fetch("api/item/" + tab_id + "/" + this.$user_id, {
+        method: "put",
+        body: JSON.stringify(this.item),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }).then(function (res) {
+        return res.json();
+      }).then(function (data) {
+        // this.item.item_name = "";
+        // this.item.item_amount = "";
+        // this.item.item_is_income = "";
+        // this.fetchItems();
+        _this.$emit("on-fetch-items");
+      })["catch"](function (error) {
+        return console.log(error);
+      });
     },
-    startEditingAmount: function startEditingAmount() {
+    startEditingAmount: function startEditingAmount(item_id, tab_id) {
       if (!this.editing) {
-        this.newItemName = this.itemName;
-        this.newItemAmount = this.itemAmount;
+        // this.newItemName = this.itemName;
+        // this.newItemAmount = this.itemAmount;
         this.editing = true;
+        this.item.id = item_id;
+        this.item.item_id = item_id;
+        this.item.item_name = this.item_name;
+        this.item.item_amount = this.item_amount; // this.item.item_is_income = this.item_is_income;
       } else {
-        this.endEditingAmount();
+        this.endEditingAmount(tab_id);
       }
     },
-    endEditingAmount: function endEditingAmount() {
-      this.editing = false;
-      this.$emit("on-edit-amount", this.newItemAmount);
+    endEditingAmount: function endEditingAmount(tab_id) {
+      var _this2 = this;
+
+      // console.log(this.item);
+      this.editing = false; // this.$emit("on-edit-amount", this.newItemAmount);
+      //  Update item amount based on curent tab and current user
+
+      fetch("api/item/" + tab_id + "/" + this.$user_id, {
+        method: "put",
+        body: JSON.stringify(this.item),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }).then(function (res) {
+        return res.json();
+      }).then(function (data) {
+        // this.item.item_name = "";
+        // this.item.item_amount = "";
+        // this.item.item_is_income = "";
+        // this.fetchItems();
+        _this2.$emit("on-fetch-items");
+      })["catch"](function (error) {
+        return console.log(error);
+      });
     }
   }
 });
 
 /***/ }),
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/addIncome.vue?vue&type=script&lang=js&":
-/*!********************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/addIncome.vue?vue&type=script&lang=js& ***!
-  \********************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Tab.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Tab.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2305,23 +2748,640 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+Vue.prototype.$user_id = document.querySelector("meta[name='user-id']").getAttribute("content");
 /* harmony default export */ __webpack_exports__["default"] = ({
+  // components: {
+  //     pushItem,
+  // },
+  props: {
+    tab: Object,
+    tab_name: String
+  },
   data: function data() {
     return {
-      newItemName: "" // newItemAmount: "",
+      items: [],
+      item: {
+        id: "",
+        // user_id: "",
+        item_name: "",
+        item_amount: "",
+        item_is_income: ""
+      },
+      // newItemName: "",
+      // newItemAmount: "",
+      // income: "",
+      // switch1: true,
+      item_id: "" // edit: false,
 
     };
   },
-  method: {
-    pushItem: function pushItem() {
-      if (this.newItemName.length > 1) {
-        this.$emit("on-add-item", this.newItemName); // this.$emit("on-add-item", this.newItemAmount);
-      } // alert(this.newItemName);
+  created: function created() {
+    this.fetchItems();
+  },
+  methods: {
+    fetchItems: function fetchItems() {
+      var _this = this;
 
+      fetch("api/items/" + this.$user_id).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this.items = res.data; // console.log(res.data);
+      });
+    },
+    addIncomeItem: function addIncomeItem(tab) {
+      var _this2 = this;
 
-      this.newItemName = ""; // this.newItemAmount = "";
+      this.item.item_is_income = "1"; // console.log(JSON.stringify(this.item));
+
+      fetch("api/item/" + tab.id + "/" + this.$user_id, {
+        method: "post",
+        body: JSON.stringify(this.item),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }).then(function (res) {
+        return res.json();
+      }).then(function (data) {
+        _this2.item.item_name = "";
+        _this2.item.item_amount = "";
+        _this2.item.item_is_income = "";
+
+        _this2.fetchItems();
+      })["catch"](function (error) {
+        return console.log(error);
+      }); // if (this.newItemName.length > 1) {
+      //     this.items.push({
+      //         itemName: this.newItemName,
+      //         itemAmount: this.newItemAmount,
+      //         income: true,
+      //         type: tab_name,
+      //     });
+      // }
+      // this.newItemName = "";
+      // this.newItemAmount = "";
+    },
+    addExpenseItem: function addExpenseItem(tab) {
+      var _this3 = this;
+
+      this.item.item_is_income = "0";
+      fetch("api/item/" + tab.id + "/" + this.$user_id, {
+        method: "post",
+        body: JSON.stringify(this.item),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }).then(function (res) {
+        return res.json();
+      }).then(function (data) {
+        _this3.item.item_name = "";
+        _this3.item.item_amount = "";
+        _this3.item.item_is_income = "";
+
+        _this3.fetchItems();
+      })["catch"](function (error) {
+        return console.log(error);
+      }); // if (this.newItemName.length > 1) {
+      //     this.items.push({
+      //         itemName: this.newItemName,
+      //         itemAmount: this.newItemAmount,
+      //         income: false,
+      //         type: tab_name,
+      //     });
+      // }
+      // this.newItemName = "";
+      // this.newItemAmount = "";
+    },
+    // addItem(newItem) {
+    //     this.items.push({
+    //         itemName: newItem,
+    //         itemAmount: newAmount,
+    //     });
+    // },
+    // pushItem(e) {
+    //     this.items.push(e);
+    // },
+    // editItemName(item, newItemName) {
+    //     item.itemName = newItemName;
+    // },
+    // editItemAmount(item, newItemAmount) {
+    //     item.itemAmount = newItemAmount;
+    // },
+    deteleItem: function deteleItem(item) {
+      var _this4 = this;
+
+      // this.items = this.items.filter((item) => item !== deleteItem);
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes"
+      }).then(function (result) {
+        if (result.value) {
+          fetch("api/item/" + item.id + "/" + item.tab_id + "/" + _this4.$user_id, {
+            method: "delete"
+          }).then(function (res) {
+            return res.json();
+          }).then(function (data) {
+            // alert("Board Removed");
+            _this4.fetchItems();
+          })["catch"](function (error) {
+            return console.log(error);
+          });
+          Swal.fire("Deleted!", "Item has been deleted.", "success");
+        }
+      }); // if (confirm("Are you sure?")) {
+      //     fetch(
+      //         "api/item/" +
+      //             item.id +
+      //             "/" +
+      //             item.tab_id +
+      //             "/" +
+      //             this.$user_id,
+      //         {
+      //             method: "delete",
+      //         }
+      //     )
+      //         .then((res) => res.json())
+      //         .then((data) => {
+      //             // alert("Board Removed");
+      //             this.fetchItems();
+      //         })
+      //         .catch((error) => console.log(error));
+      // }
+    },
+    totalIncome: function totalIncome(tab) {
+      // console.log(this.items[4].tab_id);
+      var income = 0;
+
+      for (var i = 0; i < this.items.length; i++) {
+        if (this.items[i].tab_id == tab.id) {
+          if (this.items[i].item_is_income) {
+            income += parseFloat(this.items[i].item_amount);
+          }
+        }
+      }
+
+      return income;
+    },
+    totalExpense: function totalExpense(tab) {
+      var expense = 0;
+
+      for (var i = 0; i < this.items.length; i++) {
+        if (this.items[i].tab_id == tab.id) {
+          if (!this.items[i].item_is_income) {
+            expense += parseFloat(this.items[i].item_amount);
+          }
+        }
+      }
+
+      return expense;
     }
-  }
+  },
+  computed: {// totalIncome: function () {
+    //     let income = 0;
+    //     for (let i = 0; i < this.items.length; i++) {
+    //         if (this.items[i].income) {
+    //             income += parseFloat(this.items[i].itemAmount);
+    //         }
+    //     }
+    //     return income;
+    // },
+    // totalExpense: function () {
+    //     let expense = 0;
+    //     for (let i = 0; i < this.items.length; i++) {
+    //         if (!this.items[i].income) {
+    //             expense += parseFloat(this.items[i].itemAmount);
+    //         }
+    //     }
+    //     return expense;
+    // },
+    // total: function () {
+    //     let total = 0;
+    //     total = parseFloat(totalIncome - totalExpense);
+    //     return total;
+    // },
+  } // mounted() {
+  //     console.log("Component mounted.");
+  // },
+
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Wallet.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Wallet.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  // components: {
+  //     pushItem,
+  // },
+  data: function data() {
+    return {
+      items: [{
+        itemName: "Item 1",
+        itemAmount: "200",
+        income: false // type: "card",
+
+      }, {
+        itemName: "Item 2",
+        itemAmount: "500",
+        income: true // type: "card",
+
+      }],
+      newItemName: "",
+      newItemAmount: "",
+      income: "",
+      switch1: true
+    };
+  },
+  methods: {
+    pushIncomeItem: function pushIncomeItem() {
+      if (this.newItemName.length > 1) {
+        this.items.push({
+          itemName: this.newItemName,
+          itemAmount: this.newItemAmount,
+          income: true
+        });
+      }
+
+      this.newItemName = "";
+      this.newItemAmount = "";
+    },
+    pushExpenseItem: function pushExpenseItem() {
+      if (this.newItemName.length > 1) {
+        this.items.push({
+          itemName: this.newItemName,
+          itemAmount: this.newItemAmount,
+          income: false
+        });
+      }
+
+      this.newItemName = "";
+      this.newItemAmount = "";
+    },
+    // addItem(newItem) {
+    //     this.items.push({
+    //         itemName: newItem,
+    //         itemAmount: newAmount,
+    //     });
+    // },
+    // pushItem(e) {
+    //     this.items.push(e);
+    // },
+    editItemName: function editItemName(item, newItemName) {
+      item.itemName = newItemName;
+    },
+    editItemAmount: function editItemAmount(item, newItemAmount) {
+      item.itemAmount = newItemAmount;
+    },
+    deteleItem: function deteleItem(deleteItem) {
+      this.items = this.items.filter(function (item) {
+        return item !== deleteItem;
+      });
+    }
+  },
+  computed: {
+    totalIncome: function totalIncome() {
+      var income = 0;
+
+      for (var i = 0; i < this.items.length; i++) {
+        if (this.items[i].income) {
+          income += parseFloat(this.items[i].itemAmount);
+        }
+      }
+
+      return income;
+    },
+    totalExpense: function totalExpense() {
+      var expense = 0;
+
+      for (var i = 0; i < this.items.length; i++) {
+        if (!this.items[i].income) {
+          expense += parseFloat(this.items[i].itemAmount);
+        }
+      }
+
+      return expense;
+    },
+    total: function total() {
+      var total = 0;
+      total = parseFloat(totalIncome + totalExpense);
+      return total;
+    }
+  } // mounted() {
+  //     console.log("Component mounted.");
+  // },
+
 });
 
 /***/ }),
@@ -6768,7 +7828,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* @import url(\"https://fonts.googleapis.com/css?family=Lato&display=swap\"); */\n\n/* :root {\n    --box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);\n} */\n\n/* main-body {\n    background-color: #f7f7f7;\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    justify-content: center;\n    min-height: 100vh;\n    margin: 0;\n    font-family: \"Lato\", sans-serif;\n} */\n\n/* .container {\n    margin: 30px auto;\n    width: 350px;\n} */\nh1 {\n    letter-spacing: 1px;\n    margin: 0;\n}\nh3 {\n    border-bottom: 1px solid #bbb;\n    padding-bottom: 10px;\n    margin: 40px 0 10px;\n}\nh4 {\n    margin: 0;\n    text-transform: uppercase;\n}\n.tab-text {\n    font-size: 16px;\n}\n.inc-exp-container {\n    background-color: #fff;\n    /* box-shadow: var(--box-shadow); */\n    padding: 15px 0;\n    display: flex;\n    justify-content: space-between;\n    margin: 15px 0;\n}\n.inc-exp-container > div {\n    flex: 1;\n    text-align: center;\n}\n.inc-exp-container > div:first-of-type {\n    border-right: 1px solid #dedede;\n}\n.money {\n    font-size: 20px;\n    letter-spacing: 1px;\n    margin: 5px 0;\n}\n.money.plus {\n    color: #2ecc71;\n}\n.money.minus {\n    color: #c0392b;\n}\nlabel {\n    display: inline-block;\n    margin: 10px 0;\n    font-size: 18px;\n}\ninput[type=\"text\"],\ninput[type=\"number\"] {\n    border: 1px solid #dedede;\n    border-radius: 2px;\n    display: block;\n    font-size: 16px;\n    padding: 10px;\n    width: 100%;\n}\n\n/* .btn-2 {\n    cursor: pointer;\n    background-color: #9c88ff;\n    box-shadow: var(--box-shadow);\n    color: #fff;\n    border: 0;\n    display: block;\n    font-size: 16px;\n    margin: 10px 0 30px;\n    padding: 10px;\n    width: 100%;\n}\n\n.btn-2:focus,\n.delete-btn-2:focus {\n    outline: 0;\n} */\n\n/* .list {\n    list-style-type: none;\n    padding: 0;\n    margin-bottom: 40px;\n}\n\n.list li {\n    background-color: #fff;\n    box-shadow: var(--box-shadow);\n    color: #333;\n    display: flex;\n    justify-content: space-between;\n    position: relative;\n    padding: 10px;\n    margin: 10px 0;\n}\n\n.list li.plus {\n    border-right: 5px solid #2ecc71;\n}\n\n.list li.minus {\n    border-right: 5px solid #c0392b;\n}\n\n.delete-btn {\n    cursor: pointer;\n    background-color: #e74c3c;\n    border: 0;\n    color: #fff;\n    font-size: 20px;\n    line-height: 20px;\n    padding: 2px 5px;\n    position: absolute;\n    top: 50%;\n    left: 0;\n    transform: translate(-100%, -50%);\n    opacity: 0;\n    transition: opacity 0.3s ease;\n}\n\n.list li:hover .delete-btn {\n    opacity: 1;\n} */\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* @import url(\"https://fonts.googleapis.com/css?family=Lato&display=swap\"); */\n\n/* :root {\n    --box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);\n} */\n\n/* main-body {\n    background-color: #f7f7f7;\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n    justify-content: center;\n    min-height: 100vh;\n    margin: 0;\n    font-family: \"Lato\", sans-serif;\n} */\n\n/* .container {\n    margin: 30px auto;\n    width: 350px;\n} */\nhtml {\n    scroll-behavior: smooth;\n}\nhr {\n    margin-top: 10px;\n    /* margin-bottom: 10px; */\n    height: 1px;\n    border: 0;\n    color: #bbbbbb;\n    background-color: #bbbbbb;\n}\n.marg {\n    margin-top: 25px;\n    /* padding-top: 50px; */\n    /* margin-bottom: 30px; */\n}\n\n/* change the link color */\n.nav-link-vertical {\n    background-color: #d8d8d8;\n    color: #9e9e9e;\n}\n\n/* change the color of active or hovered links */\n/* .nav-link-vertical {\n    background-color: #2ecc71;\n} */\nh1 {\n    letter-spacing: 1px;\n    margin: 0;\n}\nh3 {\n    border-bottom: 1px solid #bbb;\n    padding-bottom: 10px;\n    margin: 40px 0 10px;\n}\nh4 {\n    margin: 0;\n    text-transform: uppercase;\n}\n.tab-text {\n    font-size: 16px;\n}\n.inc-exp-container {\n    background-color: #fff;\n    /* box-shadow: var(--box-shadow); */\n    padding: 15px 0;\n    display: flex;\n    justify-content: space-between;\n    margin: 15px 0;\n}\n.inc-exp-container > div {\n    flex: 1;\n    text-align: center;\n}\n.inc-exp-container > div:first-of-type {\n    border-right: 1px solid #dedede;\n}\n.money {\n    font-size: 20px;\n    letter-spacing: 1px;\n    margin: 5px 0;\n}\n.money.plus {\n    color: #2ecc71;\n}\n.money.minus {\n    color: #c0392b;\n}\nlabel {\n    display: inline-block;\n    margin: 10px 0;\n    font-size: 18px;\n}\ninput[type=\"text\"],\ninput[type=\"number\"] {\n    border: 1px solid #dedede;\n    border-radius: 2px;\n    display: block;\n    font-size: 16px;\n    padding: 10px;\n    width: 100%;\n}\n\n/* .btn-2 {\n    cursor: pointer;\n    background-color: #9c88ff;\n    box-shadow: var(--box-shadow);\n    color: #fff;\n    border: 0;\n    display: block;\n    font-size: 16px;\n    margin: 10px 0 30px;\n    padding: 10px;\n    width: 100%;\n}\n\n.btn-2:focus,\n.delete-btn-2:focus {\n    outline: 0;\n} */\n\n/* .list {\n    list-style-type: none;\n    padding: 0;\n    margin-bottom: 40px;\n}\n\n.list li {\n    background-color: #fff;\n    box-shadow: var(--box-shadow);\n    color: #333;\n    display: flex;\n    justify-content: space-between;\n    position: relative;\n    padding: 10px;\n    margin: 10px 0;\n}\n\n.list li.plus {\n    border-right: 5px solid #2ecc71;\n}\n\n.list li.minus {\n    border-right: 5px solid #c0392b;\n}\n\n.delete-btn {\n    cursor: pointer;\n    background-color: #e74c3c;\n    border: 0;\n    color: #fff;\n    font-size: 20px;\n    line-height: 20px;\n    padding: 2px 5px;\n    position: absolute;\n    top: 50%;\n    left: 0;\n    transform: translate(-100%, -50%);\n    opacity: 0;\n    transition: opacity 0.3s ease;\n}\n\n.list li:hover .delete-btn {\n    opacity: 1;\n} */\n", ""]);
 
 // exports
 
@@ -38548,10 +39608,10 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/IncomeExpense.vue?vue&type=template&id=3ba28a94&":
-/*!****************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/IncomeExpense.vue?vue&type=template&id=3ba28a94& ***!
-  \****************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Card.vue?vue&type=template&id=b9bc2c0a&":
+/*!*******************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Card.vue?vue&type=template&id=b9bc2c0a& ***!
+  \*******************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -38565,7 +39625,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", [
     _c("div", { staticClass: "card-header text-center" }, [
-      _c("h4", [_vm._v("Your Balance")]),
+      _c("h4", [_vm._v("Card Balance")]),
       _vm._v(" "),
       _c("h1", { attrs: { id: "balance" } }, [
         _vm._v(_vm._s(_vm.totalIncome - _vm.totalExpense) + " ₹")
@@ -38609,9 +39669,9 @@ var render = function() {
               {
                 staticClass: "tab-pane fade show active",
                 attrs: {
-                  id: "history",
+                  id: "card-history",
                   role: "tabpanel",
-                  "aria-labelledby": "history-tab"
+                  "aria-labelledby": "card-history-tab"
                 }
               },
               [
@@ -38652,9 +39712,9 @@ var render = function() {
               {
                 staticClass: "tab-pane fade",
                 attrs: {
-                  id: "income",
+                  id: "card-income",
                   role: "tabpanel",
-                  "aria-labelledby": "income-tab"
+                  "aria-labelledby": "card-income-tab"
                 }
               },
               [
@@ -38760,9 +39820,9 @@ var render = function() {
               {
                 staticClass: "tab-pane fade",
                 attrs: {
-                  id: "expense",
+                  id: "card-expense",
                   role: "tabpanel",
-                  "aria-labelledby": "expense-tab"
+                  "aria-labelledby": "card-expense-tab"
                 }
               },
               [
@@ -38886,11 +39946,11 @@ var staticRenderFns = [
             {
               staticClass: "nav-link active",
               attrs: {
-                id: "history-tab",
+                id: "card-history-tab",
                 "data-toggle": "tab",
-                href: "#history",
+                href: "#card-history",
                 role: "tab",
-                "aria-controls": "histroy",
+                "aria-controls": "card-histroy",
                 "aria-selected": "true"
               }
             },
@@ -38904,11 +39964,11 @@ var staticRenderFns = [
             {
               staticClass: "nav-link",
               attrs: {
-                id: "income-tab",
+                id: "card-income-tab",
                 "data-toggle": "tab",
-                href: "#income",
+                href: "#card-income",
                 role: "tab",
-                "aria-controls": "income",
+                "aria-controls": "card-income",
                 "aria-selected": "false"
               }
             },
@@ -38922,11 +39982,11 @@ var staticRenderFns = [
             {
               staticClass: "nav-link",
               attrs: {
-                id: "expense-tab",
+                id: "card-expense-tab",
                 "data-toggle": "tab",
-                href: "#expense",
+                href: "#card-expense",
                 role: "tab",
-                "aria-controls": "expense",
+                "aria-controls": "card-expense",
                 "aria-selected": "false"
               }
             },
@@ -38937,6 +39997,181 @@ var staticRenderFns = [
     )
   }
 ]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/IncomeExpense.vue?vue&type=template&id=3ba28a94&":
+/*!****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/IncomeExpense.vue?vue&type=template&id=3ba28a94& ***!
+  \****************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", {}, [
+    _c("div", { staticClass: "mr-4 ml-4 pr-1 pl-1 pt-2 pb-4" }, [
+      _c(
+        "form",
+        {
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              return _vm.addTab($event)
+            }
+          }
+        },
+        [
+          _c("div", { staticClass: "form-group text-center" }, [
+            _c("label", { attrs: { for: "tab" } }, [_vm._v("Add Tab")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.tab.tab_name,
+                  expression: "tab.tab_name"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "text",
+                id: "tab",
+                placeholder: "Enter Tab Name..."
+              },
+              domProps: { value: _vm.tab.tab_name },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.tab, "tab_name", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-primary btn-block",
+              attrs: { type: "submit" }
+            },
+            [_vm._v("Add / Edit")]
+          )
+        ]
+      )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "mr-4 ml-4" }, [
+      _c(
+        "ul",
+        {
+          staticClass:
+            "nav nav-pills nav-fill justify-content-center tab-text pb-4",
+          attrs: { id: "myTab", role: "tablist" }
+        },
+        _vm._l(_vm.tabs, function(tab, index) {
+          return _c(
+            "li",
+            {
+              key: index,
+              staticClass: "nav-item m-1",
+              attrs: { role: "presentation" }
+            },
+            [
+              _c(
+                "a",
+                {
+                  staticClass: "nav-link nav-link-vertical",
+                  attrs: {
+                    id: tab.tab_name + "-tab",
+                    "data-toggle": "tab",
+                    href: "#" + tab.tab_name,
+                    role: "tab",
+                    "aria-controls": tab.tab_name,
+                    "aria-selected": "true"
+                  }
+                },
+                [_vm._v(_vm._s(tab.tab_name))]
+              )
+            ]
+          )
+        }),
+        0
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "tab-content", attrs: { id: "myTabContent" } },
+        _vm._l(_vm.tabs, function(tab, index) {
+          return _c(
+            "div",
+            {
+              key: index,
+              staticClass: "tab-pane fade show",
+              attrs: {
+                id: tab.tab_name,
+                role: "tabpanel",
+                "aria-labelledby": tab.tab_name + "-tab"
+              }
+            },
+            [
+              _c("tab", { attrs: { tab: tab, tab_name: tab.tab_name } }),
+              _vm._v(" "),
+              _c("div", { staticClass: "pr-3 pl-3 mb-4" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-warning btn-block",
+                        on: {
+                          click: function($event) {
+                            return _vm.editTab(tab)
+                          }
+                        }
+                      },
+                      [_vm._v("Edit " + _vm._s(tab.tab_name))]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger btn-block",
+                        on: {
+                          click: function($event) {
+                            return _vm.deleteTab(tab.id)
+                          }
+                        }
+                      },
+                      [_vm._v("Delete " + _vm._s(tab.tab_name))]
+                    )
+                  ])
+                ])
+              ])
+            ],
+            1
+          )
+        }),
+        0
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -38965,9 +40200,11 @@ var render = function() {
             "div",
             {
               staticClass: "btn btn-2 border-0 flex-grow-1",
-              class: [_vm.income ? _vm.incomeClass : _vm.expenseClass]
+              class: [
+                _vm.item_is_income === 1 ? _vm.incomeClass : _vm.expenseClass
+              ]
             },
-            [_c("span", [_vm._v(_vm._s(_vm.itemName))])]
+            [_c("span", [_vm._v(_vm._s(_vm.item_name))])]
           )
         : _c(
             "form",
@@ -38976,7 +40213,7 @@ var render = function() {
               on: {
                 submit: function($event) {
                   $event.preventDefault()
-                  return _vm.endEditingName()
+                  return _vm.endEditingName(_vm.tab_id)
                 }
               }
             },
@@ -38986,22 +40223,22 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.newItemName,
-                    expression: "newItemName"
+                    value: _vm.item.item_name,
+                    expression: "item.item_name"
                   }
                 ],
                 staticClass: "form-control",
                 attrs: { type: "text" },
-                domProps: { value: _vm.newItemName },
+                domProps: { value: _vm.item.item_name },
                 on: {
                   blur: function($event) {
-                    return _vm.startEditingName()
+                    return _vm.startEditingName(_vm.item_id, _vm.tab_id)
                   },
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.newItemName = $event.target.value
+                    _vm.$set(_vm.item, "item_name", $event.target.value)
                   }
                 }
               })
@@ -39015,9 +40252,11 @@ var render = function() {
             "div",
             {
               staticClass: "btn btn-2 border-0 flex-grow-1",
-              class: [_vm.income ? _vm.incomeClass : _vm.expenseClass]
+              class: [
+                _vm.item_is_income === 1 ? _vm.incomeClass : _vm.expenseClass
+              ]
             },
-            [_c("span", [_vm._v(_vm._s(_vm.itemAmount) + " ₹")])]
+            [_c("span", [_vm._v(_vm._s(_vm.item_amount) + " ₹")])]
           )
         : _c(
             "form",
@@ -39026,7 +40265,7 @@ var render = function() {
               on: {
                 submit: function($event) {
                   $event.preventDefault()
-                  return _vm.endEditingAmount()
+                  return _vm.endEditingAmount(_vm.tab_id)
                 }
               }
             },
@@ -39036,22 +40275,22 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.newItemAmount,
-                    expression: "newItemAmount"
+                    value: _vm.item.item_amount,
+                    expression: "item.item_amount"
                   }
                 ],
                 staticClass: "form-control",
                 attrs: { type: "number" },
-                domProps: { value: _vm.newItemAmount },
+                domProps: { value: _vm.item.item_amount },
                 on: {
                   blur: function($event) {
-                    return _vm.startEditingAmount()
+                    return _vm.startEditingAmount(_vm.item_id, _vm.tab_id)
                   },
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.newItemAmount = $event.target.value
+                    _vm.$set(_vm.item, "item_amount", $event.target.value)
                   }
                 }
               })
@@ -39062,10 +40301,10 @@ var render = function() {
     _c(
       "button",
       {
-        staticClass: "btn btn-outline-primary ml-2",
+        staticClass: "btn btn-warning ml-2",
         on: {
           click: function($event) {
-            return _vm.startEditingAmount()
+            return _vm.startEditingAmount(_vm.item_id, _vm.tab_id)
           }
         }
       },
@@ -39075,7 +40314,7 @@ var render = function() {
     _c(
       "button",
       {
-        staticClass: "btn btn-outline-primary ml-2",
+        staticClass: "btn btn-danger ml-2",
         on: {
           click: function($event) {
             return _vm.$emit("on-delete")
@@ -39093,10 +40332,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/addIncome.vue?vue&type=template&id=7b184222&":
-/*!************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/addIncome.vue?vue&type=template&id=7b184222& ***!
-  \************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Tab.vue?vue&type=template&id=8dbef60c&":
+/*!******************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Tab.vue?vue&type=template&id=8dbef60c& ***!
+  \******************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -39108,42 +40347,805 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "form",
-    {
-      on: {
-        submit: function($event) {
-          $event.preventDefault()
-          return _vm.pushItem()
-        }
-      }
-    },
-    [
-      _c("input", {
-        directives: [
+  return _c("div", [
+    _c("div", { staticClass: "card-header text-center pt-4" }, [
+      _c("h4", [_vm._v(_vm._s(_vm.tab_name) + " Balance")]),
+      _vm._v(" "),
+      _c("h1", { attrs: { id: "balance" } }, [
+        _vm._v(
+          _vm._s(_vm.totalIncome(_vm.tab) - _vm.totalExpense(_vm.tab)) + " ₹"
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "card-body" }, [
+      _c("div", { staticClass: "text-center" }, [
+        _c("div", { staticClass: "inc-exp-container" }, [
+          _c("div", [
+            _c("h4", [_vm._v("Income")]),
+            _vm._v(" "),
+            _c(
+              "p",
+              { staticClass: "money plus", attrs: { id: "money-plus" } },
+              [_vm._v("+" + _vm._s(_vm.totalIncome(_vm.tab)) + " ₹")]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", [
+            _c("h4", [_vm._v("Expense")]),
+            _vm._v(" "),
+            _c(
+              "p",
+              { staticClass: "money minus", attrs: { id: "money-minus" } },
+              [_vm._v("-" + _vm._s(_vm.totalExpense(_vm.tab)) + " ₹")]
+            )
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "text-center" }, [
+        _c(
+          "ul",
           {
-            name: "model",
-            rawName: "v-model",
-            value: _vm.newItemName,
-            expression: "newItemName"
-          }
-        ],
-        staticClass: "form-control",
-        attrs: { type: "text", placeholder: "Enter item..." },
-        domProps: { value: _vm.newItemName },
-        on: {
-          input: function($event) {
-            if ($event.target.composing) {
-              return
-            }
-            _vm.newItemName = $event.target.value
-          }
-        }
-      })
-    ]
-  )
+            staticClass:
+              "nav nav-pills nav-fill justify-content-center tab-text",
+            attrs: { id: "myTab", role: "tablist" }
+          },
+          [
+            _c(
+              "li",
+              { staticClass: "nav-item", attrs: { role: "presentation" } },
+              [
+                _c(
+                  "a",
+                  {
+                    staticClass: "nav-link active",
+                    attrs: {
+                      id: _vm.tab_name + "-history-tab",
+                      "data-toggle": "tab",
+                      href: "#" + _vm.tab_name + "-history",
+                      role: "tab",
+                      "aria-controls": _vm.tab_name + "-histroy",
+                      "aria-selected": "true"
+                    }
+                  },
+                  [_vm._v("History")]
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "li",
+              { staticClass: "nav-item", attrs: { role: "presentation" } },
+              [
+                _c(
+                  "a",
+                  {
+                    staticClass: "nav-link",
+                    attrs: {
+                      id: _vm.tab_name + "-income-tab",
+                      "data-toggle": "tab",
+                      href: "#" + _vm.tab_name + "-income",
+                      role: "tab",
+                      "aria-controls": _vm.tab_name + "-income",
+                      "aria-selected": "false"
+                    }
+                  },
+                  [_vm._v("Add Income")]
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "li",
+              { staticClass: "nav-item", attrs: { role: "presentation" } },
+              [
+                _c(
+                  "a",
+                  {
+                    staticClass: "nav-link",
+                    attrs: {
+                      id: _vm.tab_name + "-expense-tab",
+                      "data-toggle": "tab",
+                      href: "#" + _vm.tab_name + "-expense",
+                      role: "tab",
+                      "aria-controls": _vm.tab_name + "-expense",
+                      "aria-selected": "false"
+                    }
+                  },
+                  [_vm._v("Add Expense")]
+                )
+              ]
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "tab-content mt-3", attrs: { id: "myTabContent" } },
+          [
+            _c(
+              "div",
+              {
+                staticClass: "tab-pane fade show active",
+                attrs: {
+                  id: _vm.tab_name + "-history",
+                  role: "tabpanel",
+                  "aria-labelledby": _vm.tab_name + "-history-tab"
+                }
+              },
+              [
+                _c("h3", [_vm._v("History")]),
+                _vm._v(" "),
+                _vm._l(_vm.items, function(item, index) {
+                  return _c(
+                    "ul",
+                    {
+                      key: index,
+                      staticClass: "list-group",
+                      attrs: { id: "list" }
+                    },
+                    [
+                      item.tab_id == _vm.tab.id
+                        ? _c("item", {
+                            staticClass: "list-group-item",
+                            attrs: {
+                              item_id: item.id,
+                              item_name: item.item_name,
+                              item_amount: item.item_amount,
+                              item_is_income: item.item_is_income,
+                              tab_id: item.tab_id
+                            },
+                            on: {
+                              "on-fetch-items": function($event) {
+                                return _vm.fetchItems()
+                              },
+                              "on-delete": function($event) {
+                                return _vm.deteleItem(item)
+                              }
+                            }
+                          })
+                        : _vm._e()
+                    ],
+                    1
+                  )
+                }),
+                _vm._v(" "),
+                _c("hr")
+              ],
+              2
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "tab-pane fade",
+                attrs: {
+                  id: _vm.tab_name + "-income",
+                  role: "tabpanel",
+                  "aria-labelledby": _vm.tab_name + "-income-tab"
+                }
+              },
+              [
+                _c("h3", [_vm._v("Add Income")]),
+                _vm._v(" "),
+                _c(
+                  "form",
+                  {
+                    on: {
+                      submit: function($event) {
+                        $event.preventDefault()
+                        return _vm.addIncomeItem(_vm.tab)
+                      }
+                    }
+                  },
+                  [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c(
+                        "label",
+                        { staticClass: "float-left", attrs: { for: "item" } },
+                        [_vm._v("Item")]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.item.item_name,
+                            expression: "item.item_name"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          id: "item",
+                          placeholder: "Enter item..."
+                        },
+                        domProps: { value: _vm.item.item_name },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.item, "item_name", $event.target.value)
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c(
+                        "label",
+                        { staticClass: "float-left", attrs: { for: "amount" } },
+                        [_vm._v("Amount")]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.item.item_amount,
+                            expression: "item.item_amount"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "number",
+                          id: "amount",
+                          placeholder: "Enter amount..."
+                        },
+                        domProps: { value: _vm.item.item_amount },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.item,
+                              "item_amount",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary btn-block",
+                        attrs: { type: "submit" }
+                      },
+                      [_vm._v("Add Income")]
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c("hr", { staticClass: "marg" })
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "tab-pane fade",
+                attrs: {
+                  id: _vm.tab_name + "-expense",
+                  role: "tabpanel",
+                  "aria-labelledby": _vm.tab_name + "-expense-tab"
+                }
+              },
+              [
+                _c("h3", [_vm._v("Add Expense")]),
+                _vm._v(" "),
+                _c(
+                  "form",
+                  {
+                    on: {
+                      submit: function($event) {
+                        $event.preventDefault()
+                        return _vm.addExpenseItem(_vm.tab)
+                      }
+                    }
+                  },
+                  [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c(
+                        "label",
+                        { staticClass: "float-left", attrs: { for: "item" } },
+                        [_vm._v("Item")]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.item.item_name,
+                            expression: "item.item_name"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          id: "item",
+                          placeholder: "Enter item..."
+                        },
+                        domProps: { value: _vm.item.item_name },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.item, "item_name", $event.target.value)
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c(
+                        "label",
+                        { staticClass: "float-left", attrs: { for: "amount" } },
+                        [_vm._v("Amount")]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.item.item_amount,
+                            expression: "item.item_amount"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "number",
+                          id: "amount",
+                          placeholder: "Enter amount..."
+                        },
+                        domProps: { value: _vm.item.item_amount },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.item,
+                              "item_amount",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary btn-block",
+                        attrs: { type: "submit" }
+                      },
+                      [_vm._v("Add Expense")]
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _vm._m(0)
+              ]
+            )
+          ]
+        )
+      ])
+    ])
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "marg" }, [_c("hr")])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Wallet.vue?vue&type=template&id=0d955da4&":
+/*!*********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Wallet.vue?vue&type=template&id=0d955da4& ***!
+  \*********************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "card-header text-center" }, [
+      _c("h4", [_vm._v("Wallet Balance")]),
+      _vm._v(" "),
+      _c("h1", { attrs: { id: "balance" } }, [
+        _vm._v(_vm._s(_vm.totalIncome - _vm.totalExpense) + " ₹")
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "card-body" }, [
+      _c("div", { staticClass: "text-center" }, [
+        _c("div", { staticClass: "inc-exp-container" }, [
+          _c("div", [
+            _c("h4", [_vm._v("Income")]),
+            _vm._v(" "),
+            _c(
+              "p",
+              { staticClass: "money plus", attrs: { id: "money-plus" } },
+              [_vm._v("+" + _vm._s(_vm.totalIncome) + " ₹")]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", [
+            _c("h4", [_vm._v("Expense")]),
+            _vm._v(" "),
+            _c(
+              "p",
+              { staticClass: "money minus", attrs: { id: "money-minus" } },
+              [_vm._v("-" + _vm._s(_vm.totalExpense) + " ₹")]
+            )
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "text-center" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "tab-content mt-3", attrs: { id: "myTabContent" } },
+          [
+            _c(
+              "div",
+              {
+                staticClass: "tab-pane fade show active",
+                attrs: {
+                  id: "wallet-history",
+                  role: "tabpanel",
+                  "aria-labelledby": "wallet-history-tab"
+                }
+              },
+              [
+                _c("h3", [_vm._v("History")]),
+                _vm._v(" "),
+                _c(
+                  "ul",
+                  { staticClass: "list-group", attrs: { id: "list" } },
+                  _vm._l(_vm.items, function(item, index) {
+                    return _c("item", {
+                      key: index,
+                      staticClass: "list-group-item",
+                      attrs: {
+                        itemName: item.itemName,
+                        itemAmount: item.itemAmount,
+                        income: item.income
+                      },
+                      on: {
+                        "on-delete": function($event) {
+                          return _vm.deteleItem(item)
+                        },
+                        "on-edit-name": function($event) {
+                          return _vm.editItemName(item, $event)
+                        },
+                        "on-edit-amount": function($event) {
+                          return _vm.editItemAmount(item, $event)
+                        }
+                      }
+                    })
+                  }),
+                  1
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "tab-pane fade",
+                attrs: {
+                  id: "wallet-income",
+                  role: "tabpanel",
+                  "aria-labelledby": "wallet-income-tab"
+                }
+              },
+              [
+                _c("h3", [_vm._v("Add Income")]),
+                _vm._v(" "),
+                _c(
+                  "form",
+                  {
+                    on: {
+                      submit: function($event) {
+                        $event.preventDefault()
+                      }
+                    }
+                  },
+                  [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c(
+                        "label",
+                        { staticClass: "float-left", attrs: { for: "item" } },
+                        [_vm._v("Item")]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.newItemName,
+                            expression: "newItemName"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          id: "item",
+                          placeholder: "Enter item..."
+                        },
+                        domProps: { value: _vm.newItemName },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.newItemName = $event.target.value
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c(
+                        "label",
+                        { staticClass: "float-left", attrs: { for: "amount" } },
+                        [_vm._v("Amount")]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.newItemAmount,
+                            expression: "newItemAmount"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "number",
+                          id: "amount",
+                          placeholder: "Enter amount..."
+                        },
+                        domProps: { value: _vm.newItemAmount },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.newItemAmount = $event.target.value
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary btn-block",
+                        on: {
+                          click: function($event) {
+                            return _vm.pushIncomeItem()
+                          }
+                        }
+                      },
+                      [_vm._v("Add Income")]
+                    )
+                  ]
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "tab-pane fade",
+                attrs: {
+                  id: "wallet-expense",
+                  role: "tabpanel",
+                  "aria-labelledby": "wallet-expense-tab"
+                }
+              },
+              [
+                _c("h3", [_vm._v("Add Expense")]),
+                _vm._v(" "),
+                _c(
+                  "form",
+                  {
+                    on: {
+                      submit: function($event) {
+                        $event.preventDefault()
+                      }
+                    }
+                  },
+                  [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c(
+                        "label",
+                        { staticClass: "float-left", attrs: { for: "item" } },
+                        [_vm._v("Item")]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.newItemName,
+                            expression: "newItemName"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          id: "item",
+                          placeholder: "Enter item..."
+                        },
+                        domProps: { value: _vm.newItemName },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.newItemName = $event.target.value
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c(
+                        "label",
+                        { staticClass: "float-left", attrs: { for: "amount" } },
+                        [_vm._v("Amount")]
+                      ),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.newItemAmount,
+                            expression: "newItemAmount"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "number",
+                          id: "amount",
+                          placeholder: "Enter amount..."
+                        },
+                        domProps: { value: _vm.newItemAmount },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.newItemAmount = $event.target.value
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary btn-block",
+                        on: {
+                          click: function($event) {
+                            return _vm.pushExpenseItem()
+                          }
+                        }
+                      },
+                      [_vm._v("Add Expense")]
+                    )
+                  ]
+                )
+              ]
+            )
+          ]
+        )
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "ul",
+      {
+        staticClass: "nav nav-pills nav-fill justify-content-center tab-text",
+        attrs: { id: "myTab", role: "tablist" }
+      },
+      [
+        _c("li", { staticClass: "nav-item", attrs: { role: "presentation" } }, [
+          _c(
+            "a",
+            {
+              staticClass: "nav-link active",
+              attrs: {
+                id: "wallet-history-tab",
+                "data-toggle": "tab",
+                href: "#wallet-history",
+                role: "tab",
+                "aria-controls": "wallet-histroy",
+                "aria-selected": "true"
+              }
+            },
+            [_vm._v("History")]
+          )
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "nav-item", attrs: { role: "presentation" } }, [
+          _c(
+            "a",
+            {
+              staticClass: "nav-link",
+              attrs: {
+                id: "wallet-income-tab",
+                "data-toggle": "tab",
+                href: "#wallet-income",
+                role: "tab",
+                "aria-controls": "wallet-income",
+                "aria-selected": "false"
+              }
+            },
+            [_vm._v("Add Income")]
+          )
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "nav-item", attrs: { role: "presentation" } }, [
+          _c(
+            "a",
+            {
+              staticClass: "nav-link",
+              attrs: {
+                id: "wallet-expense-tab",
+                "data-toggle": "tab",
+                href: "#wallet-expense",
+                role: "tab",
+                "aria-controls": "wallet-expense",
+                "aria-selected": "false"
+              }
+            },
+            [_vm._v("Add Expense")]
+          )
+        ])
+      ]
+    )
+  }
+]
 render._withStripped = true
 
 
@@ -51339,7 +53341,10 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 
 Vue.component("income-expense", __webpack_require__(/*! ./components/IncomeExpense.vue */ "./resources/js/components/IncomeExpense.vue")["default"]);
 Vue.component("item", __webpack_require__(/*! ./components/Item.vue */ "./resources/js/components/Item.vue")["default"]);
-Vue.component("add-income", __webpack_require__(/*! ./components/addIncome.vue */ "./resources/js/components/addIncome.vue")["default"]);
+Vue.component("card", __webpack_require__(/*! ./components/Card.vue */ "./resources/js/components/Card.vue")["default"]);
+Vue.component("wallet", __webpack_require__(/*! ./components/Wallet.vue */ "./resources/js/components/Wallet.vue")["default"]);
+Vue.component("tab", __webpack_require__(/*! ./components/Tab.vue */ "./resources/js/components/Tab.vue")["default"]); // Vue.component("add-income", require("./components/addIncome.vue").default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -51394,6 +53399,75 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/components/Card.vue":
+/*!******************************************!*\
+  !*** ./resources/js/components/Card.vue ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Card_vue_vue_type_template_id_b9bc2c0a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Card.vue?vue&type=template&id=b9bc2c0a& */ "./resources/js/components/Card.vue?vue&type=template&id=b9bc2c0a&");
+/* harmony import */ var _Card_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Card.vue?vue&type=script&lang=js& */ "./resources/js/components/Card.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Card_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Card_vue_vue_type_template_id_b9bc2c0a___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Card_vue_vue_type_template_id_b9bc2c0a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Card.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Card.vue?vue&type=script&lang=js&":
+/*!*******************************************************************!*\
+  !*** ./resources/js/components/Card.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Card_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Card.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Card.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Card_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Card.vue?vue&type=template&id=b9bc2c0a&":
+/*!*************************************************************************!*\
+  !*** ./resources/js/components/Card.vue?vue&type=template&id=b9bc2c0a& ***!
+  \*************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Card_vue_vue_type_template_id_b9bc2c0a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Card.vue?vue&type=template&id=b9bc2c0a& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Card.vue?vue&type=template&id=b9bc2c0a&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Card_vue_vue_type_template_id_b9bc2c0a___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Card_vue_vue_type_template_id_b9bc2c0a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
 
 /***/ }),
 
@@ -51553,17 +53627,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/addIncome.vue":
-/*!***********************************************!*\
-  !*** ./resources/js/components/addIncome.vue ***!
-  \***********************************************/
+/***/ "./resources/js/components/Tab.vue":
+/*!*****************************************!*\
+  !*** ./resources/js/components/Tab.vue ***!
+  \*****************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _addIncome_vue_vue_type_template_id_7b184222___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./addIncome.vue?vue&type=template&id=7b184222& */ "./resources/js/components/addIncome.vue?vue&type=template&id=7b184222&");
-/* harmony import */ var _addIncome_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./addIncome.vue?vue&type=script&lang=js& */ "./resources/js/components/addIncome.vue?vue&type=script&lang=js&");
+/* harmony import */ var _Tab_vue_vue_type_template_id_8dbef60c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Tab.vue?vue&type=template&id=8dbef60c& */ "./resources/js/components/Tab.vue?vue&type=template&id=8dbef60c&");
+/* harmony import */ var _Tab_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Tab.vue?vue&type=script&lang=js& */ "./resources/js/components/Tab.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -51573,9 +53647,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _addIncome_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _addIncome_vue_vue_type_template_id_7b184222___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _addIncome_vue_vue_type_template_id_7b184222___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _Tab_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Tab_vue_vue_type_template_id_8dbef60c___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Tab_vue_vue_type_template_id_8dbef60c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -51585,38 +53659,107 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/js/components/addIncome.vue"
+component.options.__file = "resources/js/components/Tab.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/js/components/addIncome.vue?vue&type=script&lang=js&":
-/*!************************************************************************!*\
-  !*** ./resources/js/components/addIncome.vue?vue&type=script&lang=js& ***!
-  \************************************************************************/
+/***/ "./resources/js/components/Tab.vue?vue&type=script&lang=js&":
+/*!******************************************************************!*\
+  !*** ./resources/js/components/Tab.vue?vue&type=script&lang=js& ***!
+  \******************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_addIncome_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./addIncome.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/addIncome.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_addIncome_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Tab_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Tab.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Tab.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Tab_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/js/components/addIncome.vue?vue&type=template&id=7b184222&":
-/*!******************************************************************************!*\
-  !*** ./resources/js/components/addIncome.vue?vue&type=template&id=7b184222& ***!
-  \******************************************************************************/
+/***/ "./resources/js/components/Tab.vue?vue&type=template&id=8dbef60c&":
+/*!************************************************************************!*\
+  !*** ./resources/js/components/Tab.vue?vue&type=template&id=8dbef60c& ***!
+  \************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_addIncome_vue_vue_type_template_id_7b184222___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./addIncome.vue?vue&type=template&id=7b184222& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/addIncome.vue?vue&type=template&id=7b184222&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_addIncome_vue_vue_type_template_id_7b184222___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Tab_vue_vue_type_template_id_8dbef60c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Tab.vue?vue&type=template&id=8dbef60c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Tab.vue?vue&type=template&id=8dbef60c&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Tab_vue_vue_type_template_id_8dbef60c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_addIncome_vue_vue_type_template_id_7b184222___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Tab_vue_vue_type_template_id_8dbef60c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Wallet.vue":
+/*!********************************************!*\
+  !*** ./resources/js/components/Wallet.vue ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Wallet_vue_vue_type_template_id_0d955da4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Wallet.vue?vue&type=template&id=0d955da4& */ "./resources/js/components/Wallet.vue?vue&type=template&id=0d955da4&");
+/* harmony import */ var _Wallet_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Wallet.vue?vue&type=script&lang=js& */ "./resources/js/components/Wallet.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Wallet_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Wallet_vue_vue_type_template_id_0d955da4___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Wallet_vue_vue_type_template_id_0d955da4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Wallet.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Wallet.vue?vue&type=script&lang=js&":
+/*!*********************************************************************!*\
+  !*** ./resources/js/components/Wallet.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Wallet_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Wallet.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Wallet.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Wallet_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Wallet.vue?vue&type=template&id=0d955da4&":
+/*!***************************************************************************!*\
+  !*** ./resources/js/components/Wallet.vue?vue&type=template&id=0d955da4& ***!
+  \***************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Wallet_vue_vue_type_template_id_0d955da4___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Wallet.vue?vue&type=template&id=0d955da4& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Wallet.vue?vue&type=template&id=0d955da4&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Wallet_vue_vue_type_template_id_0d955da4___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Wallet_vue_vue_type_template_id_0d955da4___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -51640,8 +53783,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\Anonymous\Documents\Laravel Projects\Internship\Live Projects\Open Source\pocketwatch-new\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\Anonymous\Documents\Laravel Projects\Internship\Live Projects\Open Source\pocketwatch-new\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\Anonymous\Documents\Laravel Projects\Internship\Live Projects\Open Source\pocketwatch-new-database\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\Anonymous\Documents\Laravel Projects\Internship\Live Projects\Open Source\pocketwatch-new-database\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
