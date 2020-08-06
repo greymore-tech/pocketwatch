@@ -8,7 +8,7 @@
   <script>window.Laravel= { csrfToken:'{{ csrf_token() }}'}</script> 
   <link rel="icon" href="greymore.ico">
   
-  <title>Greydesk EAM | Admin Dashboard</title>
+  <title>PocketWatch | Personal Finance Management System</title>
 
   <link rel="stylesheet" href="/css/app.css">
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
