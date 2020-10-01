@@ -2518,6 +2518,7 @@
                     "type": "tidelift"
                 }
             ],
+
             "time": "2020-09-27T03:44:28+00:00"
         },
         {
@@ -2605,7 +2606,9 @@
                     "type": "tidelift"
                 }
             ],
+
             "time": "2020-09-18T14:27:32+00:00"
+
         },
         {
             "name": "symfony/event-dispatcher-contracts",
@@ -3008,7 +3011,9 @@
                     "type": "tidelift"
                 }
             ],
+
             "time": "2020-09-27T04:33:19+00:00"
+
         },
         {
             "name": "symfony/mime",
@@ -4353,6 +4358,7 @@
         },
         {
             "name": "symfony/var-dumper",
+
             "version": "v5.1.6",
             "source": {
                 "type": "git",
@@ -4363,6 +4369,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/var-dumper/zipball/c976c115a0d788808f7e71834c8eb0844f678d02",
                 "reference": "c976c115a0d788808f7e71834c8eb0844f678d02",
+
                 "shasum": ""
             },
             "require": {
@@ -4439,7 +4446,9 @@
                     "type": "tidelift"
                 }
             ],
+
             "time": "2020-09-18T14:27:32+00:00"
+
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
@@ -5874,6 +5883,7 @@
             "keywords": [
                 "tokenizer"
             ],
+            "abandoned": true,
             "time": "2019-09-17T06:23:10+00:00"
         },
         {
