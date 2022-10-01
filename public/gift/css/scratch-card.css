@@ -1,0 +1,22 @@
+.container {
+  border: 3px solid white;
+  position: relative;
+  width: 200px;
+  height: 250px;
+  margin: 0 auto;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.form {
+  padding: 20px;
+}
