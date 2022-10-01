@@ -1,0 +1,136 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+// Admin-lte
+@import '~admin-lte/dist/css/adminlte.css';
+
+// $fa-font-path:        "../webfonts";
+$fa-font-path:    "~@fortawesome/fontawesome-free/webfonts";
+
+//font-awesome
+@import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
+@import "~@fortawesome/fontawesome-free/scss/solid.scss";
+@import "~@fortawesome/fontawesome-free/scss/brands.scss";
+@import "~@fortawesome/fontawesome-free/scss/regular.scss";
+@import "~@fortawesome/fontawesome-free/scss/_core.scss";
+@import "~@fortawesome/fontawesome-free/scss/_mixins.scss";
+@import "~@fortawesome/fontawesome-free/scss/_icons.scss";
+@import "~@fortawesome/fontawesome-free/scss/_variables.scss";
+@import "~@fortawesome/fontawesome-free/scss/_animated.scss";
+@import "~@fortawesome/fontawesome-free/scss/_bordered-pulled.scss";
+@import "~@fortawesome/fontawesome-free/scss/_fixed-width.scss";
+@import "~@fortawesome/fontawesome-free/scss/_larger.scss";
+@import "~@fortawesome/fontawesome-free/scss/_list.scss";
+@import "~@fortawesome/fontawesome-free/scss/_rotated-flipped.scss";
+@import "~@fortawesome/fontawesome-free/scss/_stacked.scss";
+@import "~@fortawesome/fontawesome-free/scss/_screen-reader.scss";
+
+
+body {
+    background: #c9d6ff; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to top, #c9d6ff, #e2e2e2); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to top, #c9d6ff, #e2e2e2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    min-height: 100vh;
+}
+
+.brand-wrapper {
+    margin-bottom: 19px;
+
+    .logo {
+        height: 37px;
+    }
+}
+
+.login-card {
+    border: 0;
+    border-radius: 27.5px;
+    box-shadow: 0 10px 30px 0 rgba(172, 168, 168, 0.43);
+    overflow: hidden;
+
+
+    &-img {
+        border-radius: 0;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .card-body {
+        padding: 85px 60px 60px;
+
+        @media (max-width: 422px) {
+            padding: 35px 24px;
+        }
+    }
+
+    &-description {
+        font-size: 25px;
+        color: #000;
+        font-weight: normal;
+        margin-bottom: 23px;
+    }
+
+    form {
+        max-width: 326px;
+    }
+
+    .form-control {
+        border: 1px solid #d5dae2;
+        padding: 15px 25px;
+        margin-bottom: 20px;
+        min-height: 45px;
+        font-size: 13px;
+        line-height: 15;
+        font-weight: normal;
+
+        &::placeholder {
+            color: #919aa3;
+        }
+    }
+
+    .login-btn {
+        padding: 13px 20px 12px;
+        background-color: #000;
+        border-radius: 4px;
+        font-size: 17px;
+        font-weight: bold;
+        line-height: 20px;
+        color: #fff;
+        margin-bottom: 24px;
+
+        &:hover {
+            border: 1px solid #000;
+            background-color: transparent;
+            color: #000;
+        }
+    }
+
+    .forgot-password-link {
+        font-size: 14px;
+        color: #919aa3;
+        margin-bottom: 12px;
+    }
+
+    &-footer-text {
+        font-size: 16px;
+        color: #0d2366;
+        margin-bottom: 60px;
+
+        @media (max-width: 767px) {
+            margin-bottom: 24px;
+        }
+    }
+
+    &-footer-nav {
+        a {
+            font-size: 14px;
+            color: #919aa3;
+        }
+    }
+}

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,6 +17,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Route::get('/gift-registration/{shortcode}', 'App\Http\Controllers\API\CRM\GiftController@registrationPage');
+Route::post('/giftRegister', "App\Http\Controllers\API\CRM\GiftController@giftRegister");
+Route::get('/scratchcard/{shortcode}', function() {
+	return view('scratchcard');
+})->name('scratchcard');
 
-Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

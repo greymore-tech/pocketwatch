@@ -1,0 +1,58 @@
+<div class="row justify-content-center center" align='center'>
+							<form class="regform" method="POST" action="/giftRegister">
+								@csrf
+								<!-- Progressbar -->
+								<!-- Fieldsets -->
+								<fieldset id="first">
+									<h2 class="title">Tell us a little bit about you</h2>
+									<!-- <label>First Name:*</label> -->
+									<input type="text" class="form-control" name="first_name" placeholder="Enter your first name *" value="{{ old('first_name') }}" required>
+        						
+									<!-- <label>Last Name:*</label> -->
+									<input type="hidden" class="form-control" name="last_name" placeholder="Enter your last name *" value="." required>
+									<!-- <label>Phone:*</label> -->
+        							<input type="number" class="form-control" name="phone" placeholder="Enter your phone number *" value="{{ old('phone') }}" required>
+        							
+									<input id="next_btn1" onclick="next_step1()" type="button" value="Next">
+									<input type="hidden" name="id" value="{{$campaign->id}}" id="campaignid">
+								</fieldset>
+								<fieldset id="second">
+									<br>
+									<br>
+									<h2 class="title">What are you looking to buy this Onam?</h2>
+									<p class="subtitle">Category: *</p>
+									<select name="category" class="form-control" id="categoryselection" required="required">
+										<option value="0">Select an option</option>
+        								@foreach($categories as $category)
+        									<option {{ old('category') == $category->id ? "selected":""}} value="{{ $category->id }}">{{$category->name}}</option>
+        								@endforeach
+									</select>
+        							
+									<p class="subtitle">Sub-Category: *</p>
+									<select name="division" id="subcategoryselection" class="form-control" required="required">
+										<option value="0">Select an option</option>
+									</select>
+									
+									<input type="hidden" name="id" value="{{$campaign->id}}" id="campaignid">
+									<input id="pre_btn1" onclick="prev_step1()" type="button" value="Previous">
+									<input id="next_btn2" name="next" onclick="next_step2()" type="button" value="Next">
+								</fieldset>
+								<fieldset id="third">
+									<br>
+									<br>
+									<br>
+								<h5 class="title">Want your gift details emailed to you?</h5>
+								<label>Please type in your email address in that case:</label>
+        						<input type="email" class="form-control @error('email') is-invalid @enderror" name="email" placeholder="Enter your email" value="{{ old('email') }}">
+        						@error('email')
+        							<span class="badge badge-danger">Enter a valid email</span>
+        						@enderror
+								<input type="hidden" name="id" value="{{$campaign->id}}" id="campaignid">
+								<input id="pre_btn2" onclick="prev_step2()" type="button" value="Previous">
+								<input class="submit_btn" type="submit" value="Submit">
+								</fieldset>
+							</form>
+							@else
+       							<h3>Uh Oh! It appears you have made a mistake you imbecile. There is no gift campaign like that. Go away!</h3>
+      						@endif
+						</div>
